@@ -23,10 +23,10 @@ const corpoTabela = document.querySelector('#corpoTabelaProfessores');
 listarTodosProfessores();
 
 
-function listarTodosProfessores() {
-	var professores = '[ { "id": 1, "nome": "Ana", "matricula": 1111, "area": "Direito" }, ' + 
-		                '{ "id": 2, "nome": "Bob", "matricula": 2222, "area": "Arquitetura"} ]';
-	preencherTabela(JSON.parse(professores));
+async function listarTodosProfessores() {
+	fetch('/api/professores')
+		.then(resposta => resposta.json())
+		.then(json => preencherTabela(json));
 }
 
 function preencherTabela(professores) {
