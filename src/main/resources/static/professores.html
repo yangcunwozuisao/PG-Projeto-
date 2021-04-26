@@ -11,11 +11,34 @@
         <h1>Gerenciamento de Professores</h1>
         
         <table>    
-            <tr> <th>ID</th> <th>Nome</th> <th>Matrícula</th> <th>Área</th> </tr>                                  
-            <tr> <td>1</td> <td>Ana</td> <td>1111</td> <td>Segurança</td> </tr>
-            <tr> <td>3</td> <td>Bob</td> <td>22222</td> <td>Direito</td> </tr>
-            <tr> <td>4</td> <td>Carlos</td> <td>33333</td> <td>Arquitetura</td> </tr>
+            <tr> <th>ID</th> <th>Nome</th> <th>Matrícula</th> <th>Área</th> </tr>   
+                                           
+            <tbody id="corpoTabelaProfessores"> </tbody>
         </table>
         
+        
+        <script>
+const corpoTabela = document.querySelector('#corpoTabelaProfessores');
+
+listarTodosProfessores();
+
+
+function listarTodosProfessores() {
+	var professores = '[ { "id": 1, "nome": "Ana", "matricula": 1111, "area": "Direito" }, ' + 
+		                '{ "id": 2, "nome": "Bob", "matricula": 2222, "area": "Arquitetura"} ]';
+	preencherTabela(JSON.parse(professores));
+}
+
+function preencherTabela(professores) {
+	var linhasTabela = '';
+	var n = professores.length;
+	for (var i=0; i<n; i++) {
+		var p = professores[i];
+		linhasTabela += 
+			`<tr> <td>${p.id}</td> <td>${p.nome}</td> <td>${p.matricula}</td> <td>${p.area}</td> </tr> \n`;
+	}
+	corpoTabela.innerHTML = linhasTabela;
+}
+        </script>
 	</body>
 </html>	        
