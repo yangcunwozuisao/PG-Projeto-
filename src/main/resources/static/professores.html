@@ -66,12 +66,12 @@ function inicializar() {
 
 async function listarTodosProfessores() {
 	fetch('/api/professores')
-        .then(resposta => { if (!resposta.ok) throw Error(resposta.status); return resposta; } )
-		.then(resposta => resposta.json())
-		.then(json => preencherTabela(json))
-        .catch(function(error) {
-            paragrafo.innerHTML = "Erro ao listar professores (código " + error.message + ")";
-        });
+    .then(resposta => { if (!resposta.ok) throw Error(resposta.status); return resposta; } )
+    .then(resposta => resposta.json())
+    .then(json => preencherTabela(json))
+    .catch(function(error) {
+        paragrafo.innerHTML = "Erro ao listar professores (código " + error.message + ")";
+    });
 }
 
 function preencherTabela(professores) {
@@ -156,6 +156,15 @@ function selecionarProfessor(id, nome, matricula, area) {
     btnSalvar.disabled = false;
     btnApagar.disabled = false;
     btnCancelar.disabled = false; 
+}
+
+async function apagarProfessor() {
+	fetch('/api/professores/' + txtId.value, {method: 'DELETE'} )
+    .then(resposta => { if (!resposta.ok) throw Error(resposta.status); return resposta; } )
+    .then(resposta => inicializar())
+    .catch(function(error) {
+        paragrafo.innerHTML = "Erro ao apagar professor (código " + error.message + ")";
+    });
 }
 
         </script>
