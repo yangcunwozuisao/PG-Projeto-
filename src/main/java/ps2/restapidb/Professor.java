@@ -1,26 +1,29 @@
 package ps2.restapidb;
 
 import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="professores")
 public class Professor {
+
 	@Id @GeneratedValue
 	private long id;
+
 	private String nome;
 	private int matricula;
 	private String area;
+	
+	@ManyToOne(optional=false)
+	private Faculdade faculdade;
 		
-	public Professor() {}
-	public Professor(long id, String n, int m, String a) {
-		this.id = id;
-		this.nome = n;
-		this.matricula = m;
-		this.area = a;
+	public Professor() {
+		super();
 	}
+
 	public long getId() {
 		return id;
 	}
@@ -45,4 +48,13 @@ public class Professor {
 	public void setArea(String area) {
 		this.area = area;
 	}
+
+	public Faculdade getFaculdade() {
+		return faculdade;
+	}
+
+	public void setFaculdade(Faculdade faculdade) {
+		this.faculdade = faculdade;
+	}
+
 }

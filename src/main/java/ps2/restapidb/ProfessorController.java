@@ -1,7 +1,5 @@
 package ps2.restapidb;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -26,8 +25,11 @@ class ProfessorController {
 	}
 
 	@GetMapping("/api/professores")
-	Iterable<Professor> getProfessores() {
-		return professorRepo.findAll();
+	Iterable<Professor> getProfessores(@RequestParam Optional<Long> faculdadeId) {
+		if (faculdadeId.isEmpty()) {
+			return professorRepo.findAll();			
+		}
+		return professorRepo.findByFaculdadeId(faculdadeId.get());
 	}
 	
 	@GetMapping("/api/professores/{id}")
@@ -43,14 +45,10 @@ class ProfessorController {
 	
 	@PutMapping("/api/professores/{professorId}")
 	Optional<Professor> updateProfessor(@RequestBody Professor professorRequest, @PathVariable long professorId) {
-		Optional<Professor> opt = this.getProfessor(professorId);
+		Optional<Professor> opt = professorRepo.findById(professorId);
 		if (opt.isPresent()) {
-			Professor professor = opt.get();
-			if (professorRequest.getId() == professor.getId()) {
-				professor.setNome(professorRequest.getNome());
-				professor.setMatricula(professorRequest.getMatricula());
-				professor.setArea(professorRequest.getArea());
-				professorRepo.save(professor);
+			if (professorRequest.getId() == professorId) {
+				professorRepo.save(professorRequest);
 				return opt;
 			}
 		}
